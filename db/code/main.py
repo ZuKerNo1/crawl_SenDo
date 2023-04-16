@@ -1,29 +1,35 @@
 import requests
 import numpy as np
 import pandas as pd
+import mysql.connector 
+from urllib.parse import urljoin
 from fastapi import FastAPI
-import json
 
 app = FastAPI()
 
 db = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="anhtuank56",
-  database="baoMoi"
+  password="A0934804796",
+  database="crawl_sd"
 )
+
+cursor = db.cursor()
 
 def insert_to_db(data):
     for product in data["data"]:
-      product_id = data['product_id']
-      name = data['name']
-      price = data['price']
-      thumbnail_url = data['thumbnail_url']
-      shop_name = data['shop_name']
+      product_id = product["item"]["product_id"]
+      name = product["item"]["name"]
+      price = product["item"]["price"]
+      thumbnail_url = product["item"]["thumbnail_url"]
+      shop_name = product["item"]["shop_name"]
       
-      sql = ("INSERT INTO product_SD"
-                "(productID, name, price, thumbnail_url,shop_name)"
+      sql = ("INSERT INTO product"
+                "(product_id, name_product, price, thumbnail_url,shop_name)"
                 "VALUES (%d, %s, %f, %s, %s)")
+      
+      val = (product_id, name, price, thumbnail_url, shop_name)
+      cursor.execute(sql, val)
       
     return 
 
@@ -35,8 +41,6 @@ def get_data_crawl():
     insert_to_db(data)
     return (data)
 
-
-cursor = db.cursor()
 
 db.commit()
 cursor.close()
