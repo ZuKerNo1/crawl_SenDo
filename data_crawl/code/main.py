@@ -11,7 +11,7 @@ app = FastAPI()
 
 def get_data():
     # crawl data
-    url = "https://recommend-api.sendo.vn/web/home/recommend/external?p=10&s=60&track_id=cd161bcd-91ac-47ff-b0a9-56c80e7cdf39&platform=desktop2&app_version=2.29.51&inventory_id=&advertising_id=&session_key=1681640169279"
+    url = "https://recommend-api.sendo.vn/web/listing/recommend/internal?track_id=948778d8-079f-4a5c-9865-ee19e1c73aec&p=1&s=100&cate_path=do-boi&category_id=63&sort_type=vasup_desc&platform=desktop2&app_verion=2.29.51&session_key=1681739587797&version=v2&is_new_listing=2"
     payload={}
     headers = {
     'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"',

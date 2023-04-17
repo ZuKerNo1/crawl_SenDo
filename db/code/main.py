@@ -18,8 +18,8 @@ def insert_to_db(data):
   db = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="anhtuan2709_",
-  database="baomoi"
+  password="anhtuank56",
+  database="crawl"
   )
   cursor = db.cursor()
   sql_select_all = ("Select * from product_sd")
@@ -31,13 +31,18 @@ def insert_to_db(data):
   #get single data from json file
   product_id_list =[]
   for product in data["data"]:
-    product_id = str(product['item']['product_id'])
-    name = str(product['item']['name'])
-    price = str(product['item']['price'])
-    thumbnail_url =str(product['item']['thumbnail_url'])
-    shop_name = str(product['item']['shop_name'])
-    
-    product_id_list.append(product_id)
+    if not 'item' in product:
+      continue
+    else:
+      product_id = str(product['item']['product_id'])
+      name = str(product['item']['name'])
+      price = str(product['item']['price'])
+      if not 'thumbnail_url' in product['item']:
+        continue
+      else:
+        thumbnail_url =str(product['item']['thumbnail_url'])
+      shop_name = str(product['item']['shop_name'])
+      product_id_list.append(product_id)
     # sql1 = ("Select * from product_sd where productID = '"+product_id+"'")
     # cursor.execute(sql1)
     # result = cursor.fetchall()
@@ -63,7 +68,7 @@ def insert_to_db(data):
     if (x[0] not in product_id_list
     ):
       cursor_del = db.cursor()
-      sql_del=("delete  from baomoi.product_sd where productID = '"+x[0]+"'")
+      sql_del=("delete  from crawl.product_sd where productID = '"+x[0]+"'")
       cursor_del.execute(sql_del)
       deleted=deleted+1
     
